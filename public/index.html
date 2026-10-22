@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Librety | Admin</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="app.js" defer></script>
+</head>
+
+<body>
+
+    <div class="layout">
+
+        <!-- Menú lateral -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fa-solid fa-book-open"></i>
+                <span>Librety</span>
+            </div>
+
+
+            <p class="menu-label">MENÚ PRINCIPAL</p>
+
+            <nav>
+
+                <a href="#" class="nav-link nav-simulado">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    Panel general
+                </a>
+
+                <a href="#" class="nav-link active">
+                    <i class="fa-solid fa-book-open"></i>
+                    Inventario de libros
+                </a>
+
+                <a href="#" class="nav-link nav-simulado">
+                    <i class="fa-solid fa-tags"></i>
+                    Categorías
+                </a>
+
+                <a href="#" class="nav-link nav-simulado">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    Ventas
+                </a>
+
+                <a href="#" class="nav-link nav-simulado">
+                    <i class="fa-solid fa-users"></i>
+                    Clientes
+                </a>
+
+                <a href="#" class="nav-link nav-simulado">
+                    <i class="fa-solid fa-truck"></i>
+                    Proveedores
+                </a>
+            </nav>
+
+            <p class="menu-label menu-secondary">ADMINISTRACIÓN</p>
+
+            <nav>
+                <a href="#" class="nav-link nav-simulado">
+                    <i class="fa-solid fa-chart-column"></i>
+                    Reportes
+                </a>
+
+                <a href="#" class="nav-link nav-simulado">
+                    <i class="fa-solid fa-gear"></i>
+                    Configuración
+                </a>
+            </nav>
+
+
+            <div class="sidebar-footer">
+                <i class="fa-solid fa-layer-group"></i>
+                Administrador
+            </div>
+        </aside>
+
+        <!-- Contenido principal -->
+        <main class="main-content">
+
+            <header class="topbar">
+                <div>
+                    <h1>Inventario de libros</h1>
+                </div>
+
+                <div class="user-info">
+                    <i class="fa-solid fa-circle-user"></i>
+                    Administrador
+                </div>
+            </header>
+
+            <!-- Tarjetas de estadísticas -->
+            <section class="stats">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fa-solid fa-book"></i>
+                    </div>
+                    <div>
+                        <p>Libros registrados</p>
+                        <h2 id="totalLibros">0</h2>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fa-solid fa-boxes-stacked"></i>
+                    </div>
+                    <div>
+                        <p>Unidades disponibles</p>
+                        <h2 id="totalStock">0</h2>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Inventario -->
+            <section class="inventory">
+                <div class="inventory-header">
+                    <div>
+                        <h2>Catálogo de libros</h2>
+                    </div>
+
+                    <button type="button" id="btnAgregar" class="btn-primary">
+                        <i class="fa-solid fa-plus"></i>
+                        Agregar libro
+                    </button>
+                </div>
+
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="search" id="buscarLibro" placeholder="Buscar por título o autor...">
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Título</th>
+                                <th>Autor</th>
+                                <th>Precio</th>
+                                <th>Existencias</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaLibros">
+                            <tr>
+                                <td colspan="6">
+                                    Cargando libros...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Modal para agregar y editar libros -->
+    <div id="modalLibro" class="modal" hidden>
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h2 id="tituloModal">Agregar libro</h2>
+
+                <button type="button" id="cerrarModal" class="btn-close" aria-label="Cerrar">
+                    &times;
+                </button>
+            </div>
+
+            <form id="formLibro">
+                <input type="hidden" id="libroId">
+
+                <div class="form-group">
+                    <label for="titulo">Título del libro</label>
+                    <input type="text" id="titulo" required maxlength="150">
+                </div>
+
+                <div class="form-group">
+                    <label for="autor">Autor</label>
+                    <input type="text" id="autor" required maxlength="100">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="precio">Precio ($)</label>
+                        <input type="number" id="precio" min="0" step="0.01" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="stock">Existencias</label>
+                        <input type="number" id="stock" min="0" step="1" required>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" id="cancelarModal" class="btn-secondary">
+                        Cancelar
+                    </button>
+
+                    <button type="submit" class="btn-primary">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        Guardar libro
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+
+</body>
+
+</html>
